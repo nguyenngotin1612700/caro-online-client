@@ -54,15 +54,15 @@ export const chooseMove = step => ({
   }
 });
 
-export const toggleXIsNext = () => ({
-  type: 'TOGGLE_XISNEXT',
+export const toggleYourTurn = () => ({
+  type: 'TOGGLE_YOURTURN',
   payload: {}
 });
 
-export const setXIsNext = xIsNext => ({
-  type: 'SET_XISNEXT',
+export const setYourTurn = yourTurn => ({
+  type: 'SET_YOURTURN',
   payload: {
-    xIsNext
+    yourTurn
   }
 });
 

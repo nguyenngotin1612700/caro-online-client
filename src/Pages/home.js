@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Card } from 'react-bootstrap';
 import Carousel from '../components/Carousel';
@@ -15,7 +16,7 @@ class Home extends React.Component {
                 <Card.Img variant="top" src="bot.png" />
                 <Card.Body>
                   <Button variant="outline-primary" block>
-                    Play With Bot
+                    <Link to="/playwithbot">Play With Bot</Link>
                   </Button>
                 </Card.Body>
               </Card>
@@ -25,7 +26,7 @@ class Home extends React.Component {
                 <Card.Img variant="top" src="hacker.png" />
                 <Card.Body>
                   <Button variant="outline-primary" block>
-                    Play With Components
+                    <Link to="/playwithcomponent">Play With Components</Link>
                   </Button>
                 </Card.Body>
               </Card>

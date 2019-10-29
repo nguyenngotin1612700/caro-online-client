@@ -1,14 +1,12 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { Navbar, Nav } from 'react-bootstrap';
 import './index.css';
-import Register from './Pages/register';
-import Login from './Pages/login';
-import Home from './Pages/home';
 import configStore from './configStore';
 import NavBar from './components/NavBar';
+import MyRouter from './components/Router';
 
 const store = configStore();
 
@@ -40,19 +38,7 @@ class App extends React.Component {
               <NavBar />
               {/* A <Switch> looks through its children <Route>s and
           renders the first one that matches the current URL. */}
-
-              <Switch>
-                <Route path="/register">
-                  <Register />
-                </Route>
-                <Route path="/login">
-                  <Login />
-                </Route>
-                <Route path="/">
-                  <br />
-                  <Home />
-                </Route>
-              </Switch>
+              <MyRouter />
             </Provider>
           </div>
         </Router>
