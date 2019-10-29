@@ -8,6 +8,7 @@ import Register from './Pages/register';
 import Login from './Pages/login';
 import Home from './Pages/home';
 import configStore from './configStore';
+import NavBar from './components/NavBar';
 
 const store = configStore();
 
@@ -36,7 +37,7 @@ class App extends React.Component {
         <Router>
           <div>
             <Provider store={store}>
-              {this.renderNavbar()}
+              <NavBar />
               {/* A <Switch> looks through its children <Route>s and
           renders the first one that matches the current URL. */}
 

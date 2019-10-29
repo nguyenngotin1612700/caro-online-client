@@ -73,7 +73,14 @@ export const receiveUser = user => ({
   }
 });
 
-export const requestLogin = (email, password) => {
+export const loginFailed = message => ({
+  type: 'LOGIN_FAILED',
+  payload: {
+    message
+  }
+});
+
+export const requestLogin = (email, password, cb) => {
   let check = true;
   return dispatch => {
     fetch('https://api-jwt-1612700.herokuapp.com/users/login', {
@@ -98,7 +105,16 @@ export const requestLogin = (email, password) => {
         // eslint-disable-next-line no-console
         if (check) {
           dispatch(receiveUser(response));
+          cb();
+        } else {
+          dispatch(loginFailed(response.message));
+          cb();
         }
       });
   };
 };
+
+export const logoutAction = () => ({
+  type: 'LOGOUT',
+  payload: {}
+});

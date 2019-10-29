@@ -7,6 +7,7 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       alert: 'default',
       message: ''
     };
@@ -14,6 +15,10 @@ class Register extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    this.setState({
+      isLoading: true,
+      alert: 'default'
+    });
     const name = e.target.formGroupName.value;
     const email = e.target.formGroupEmail.value;
     const password = e.target.formGroupPassword.value;
@@ -41,14 +46,32 @@ class Register extends React.Component {
         if (!check) {
           this.setState({
             alert: 'failed',
+            isLoading: false,
             message: response.message
           });
         } else {
           this.setState({
-            alert: 'success'
+            alert: 'success',
+            isLoading: false
           });
         }
       });
+  };
+
+  renderRegister = () => {
+    const { isLoading } = this.state;
+    if (!isLoading) {
+      return (
+        <Button variant="primary" type="submit">
+          Register
+        </Button>
+      );
+    }
+    return (
+      <Button variant="primary" type="submit" disabled>
+        Registering...
+      </Button>
+    );
   };
 
   rederAlert = () => {
@@ -133,9 +156,7 @@ class Register extends React.Component {
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" placeholder="Password" />
           </Form.Group>
-          <Button variant="primary" type="submit">
-            Register
-          </Button>
+          {this.renderRegister()}
         </Form>
       </div>
     );
