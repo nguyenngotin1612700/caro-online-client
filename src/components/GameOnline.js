@@ -1,54 +1,76 @@
 // eslint-disable-next-line import/no-unresolved
-import 'bootstrap/dist/css/bootstrap.min.css';
+import io from 'socket.io-client';
 import React from 'react';
 import { ListGroup, Alert } from 'react-bootstrap';
 import Board from './Board';
+import { toggleYourTurn } from '../actions';
 
-class Game extends React.Component {
-  handlePlayAgain = () => {
-    const {
-      changeAllHistory,
-      changeStepNumber,
-      addWin,
-      addWasWin,
-      setSortMoveAsc,
-      chooseMove,
-      setYourTurn
-    } = this.props;
-    changeAllHistory([
-      {
-        squares: Array(400).fill(null),
-        type: null,
-        pos: -1
+class GameOnline extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isFindingOpponent: false,
+      yourOpponent: null
+    };
+    this.socket = null;
+  }
+
+  //   handlePlayAgain = () => {
+  //     const {
+  //       changeAllHistory,
+  //       changeStepNumber,
+  //       addWin,
+  //       addWasWin,
+  //       setSortMoveAsc,
+  //       chooseMove,
+  //       setYourTurn
+  //     } = this.props;
+  //     changeAllHistory([
+  //       {
+  //         squares: Array(400).fill(null),
+  //         type: null,
+  //         pos: -1
+  //       }
+  //     ]);
+  //     changeStepNumber(0);
+  //     addWin(null);
+  //     addWasWin(null);
+  //     setSortMoveAsc();
+  //     chooseMove(-1);
+  //     setYourTurn(true);
+  //   };
+
+  // handleSortMove = () => {
+  //     const { toggleSortMove } = this.props;
+  //     toggleSortMove();
+  // };
+
+  handleFindComponent = () => {
+    const { user, toggleYourTurn } = this.props;
+    this.socket = io('localhost:3000');
+    this.socket.emit('find-opponent', user.name);
+    this.setState({
+      isFindingOpponent: true
+    });
+
+    this.socket.on('get-your-opponent', data => {
+      console.log('------', data);
+      this.setState({
+        isFindingOpponent: false,
+        yourOpponent: data
+      });
+      if (!data.firstTurn) {
+        console.log('mmmmm');
+        toggleYourTurn();
       }
-    ]);
-    changeStepNumber(0);
-    addWin(null);
-    addWasWin(null);
-    setSortMoveAsc();
-    chooseMove(-1);
-    setYourTurn(true);
+    });
+    this.socket.on('get-your-opponent-check', data => {
+      console.log('-xx----', data);
+      this.handleClick(data, true);
+    });
   };
 
-  handleSortMove = () => {
-    const { toggleSortMove } = this.props;
-    toggleSortMove();
-  };
-
-  generatePositionForBot = () => {
-    const { stepNumber } = this.props;
-    let { history } = this.props;
-    history = history.slice(0, stepNumber + 1);
-    const current = history[history.length - 1];
-    const squares = current.squares.slice();
-    let result = -1;
-    while (result < 0 || squares[result]) {
-      result = Math.floor(Math.random() * 400);
-    }
-    return result;
-  };
-
-  handleClick(i) {
+  handleClick(i, opponentCheck = false) {
     const {
       winner,
       yourTurn,
@@ -62,28 +84,22 @@ class Game extends React.Component {
       toggleYourTurn
     } = this.props;
     let { history } = this.props;
-    let turnOfHuman = false;
     const initLength = history.length;
     history = history.slice(0, stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-    if (i >= 0) {
+    if (!opponentCheck) {
       // player check
-      turnOfHuman = true;
       if (squares[i] || winner || !yourTurn) {
         return;
       }
       squares[i] = 'X';
     } else {
-      // bot check
       if (winner || yourTurn) {
         return;
       }
-      // eslint-disable-next-line no-param-reassign
-      i = this.generatePositionForBot();
       squares[i] = 'O';
     }
-
     const checkWin = this.calculateWinner(squares, i);
     if (stepNumber < initLength - 1) {
       changeAllHistory(history);
@@ -103,26 +119,12 @@ class Game extends React.Component {
       addWasWin(null);
       toggleYourTurn();
     }
-    if (turnOfHuman) {
-      setTimeout(() => {
-        this.handleClick(-1);
-      }, 100);
+    if (!opponentCheck) {
+      this.socket.emit('send-check', {
+        position: i,
+        opponentId: this.state.yourOpponent.id
+      });
     }
-  }
-
-  jumpTo(step) {
-    const {
-      wasWin,
-      history,
-      changeStepNumber,
-      setYourTurn,
-      addWin,
-      chooseMove
-    } = this.props;
-    addWin(wasWin && step === history.length - 1 ? wasWin : null);
-    changeStepNumber(step);
-    setYourTurn(step % 2 === 0);
-    chooseMove(step);
   }
 
   calculateWinner(squares, lastNode) {
@@ -367,9 +369,10 @@ class Game extends React.Component {
             type="button"
             style={{ margin: '10px' }}
             className="btn btn-primary"
-            onClick={this.handleSortMove}
+            disabled={this.state.isFindingOpponent || this.state.yourOpponent}
+            onClick={this.handleFindComponent}
           >
-            Sort Moves
+            Tìm Đối Thủ
           </button>
           <button
             type="button"
@@ -393,4 +396,4 @@ class Game extends React.Component {
     );
   }
 }
-export default Game;
+export default GameOnline;

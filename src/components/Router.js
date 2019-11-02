@@ -5,6 +5,7 @@ import Register from '../Pages/register';
 import Login from '../Pages/login';
 import Home from '../Pages/home';
 import PlayWithBot from '../Pages/playWithBot';
+import PlayWithOppoNents from '../Pages/playWithOpponent';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class MyRouter extends React.Component {
@@ -41,7 +42,7 @@ class MyRouter extends React.Component {
         </this.PrivateRoute>
 
         <this.PrivateRoute path="/playwithcomponent">
-          <div>playwithcomponent</div>
+          <PlayWithOppoNents />
         </this.PrivateRoute>
 
         <Route path="/register">

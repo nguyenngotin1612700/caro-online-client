@@ -3,12 +3,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { Navbar, Nav } from 'react-bootstrap';
+import { loadState, saveState } from './localStorage';
 import './index.css';
 import configStore from './configStore';
 import NavBar from './components/NavBar';
 import MyRouter from './components/Router';
 
-const store = configStore();
+const persistedState = loadState();
+const store = configStore(persistedState);
+
+store.subscribe(() => {
+  saveState(store.getState());
+});
 
 class App extends React.Component {
   renderNavbar = () => {
