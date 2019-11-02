@@ -3,7 +3,6 @@ import io from 'socket.io-client';
 import React from 'react';
 import { ListGroup, Alert } from 'react-bootstrap';
 import Board from './Board';
-import { toggleYourTurn } from '../actions';
 
 class GameOnline extends React.Component {
   constructor(props) {
@@ -54,18 +53,18 @@ class GameOnline extends React.Component {
     });
 
     this.socket.on('get-your-opponent', data => {
-      console.log('------', data);
+      // console.log('------', data);
       this.setState({
         isFindingOpponent: false,
         yourOpponent: data
       });
       if (!data.firstTurn) {
-        console.log('mmmmm');
+        // console.log('mmmmm');
         toggleYourTurn();
       }
     });
     this.socket.on('get-your-opponent-check', data => {
-      console.log('-xx----', data);
+      // console.log('-xx----', data);
       this.handleClick(data, true);
     });
   };
@@ -122,6 +121,7 @@ class GameOnline extends React.Component {
     if (!opponentCheck) {
       this.socket.emit('send-check', {
         position: i,
+        // eslint-disable-next-line react/destructuring-assignment
         opponentId: this.state.yourOpponent.id
       });
     }
@@ -369,6 +369,7 @@ class GameOnline extends React.Component {
             type="button"
             style={{ margin: '10px' }}
             className="btn btn-primary"
+            // eslint-disable-next-line react/destructuring-assignment
             disabled={this.state.isFindingOpponent || this.state.yourOpponent}
             onClick={this.handleFindComponent}
           >
