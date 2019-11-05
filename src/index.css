@@ -66,5 +66,228 @@ ol li {
 
 .game-info {
   margin-left: 20px;
-  width: 400px;
+  width: 500px;
+}
+.box-chat {
+  margin-left: 20px;
+  width: 500px;
+}
+
+.container {
+  width: 50%;
+  height: 50%;
+}
+
+.bg {
+  background-color: black;
+}
+.ab {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  top: 0px;
+  margin: auto;
+}
+
+.w100 {
+  width: 100%;
+}
+.tc {
+  display: table-cell;
+}
+
+.bd {
+  border: 1px solid red;
+  border-collapse: collapse;
+}
+
+.vb {
+  vertical-align: bottom;
+}
+
+.vt {
+  vertical-align: top;
+}
+
+.t {
+  display: table;
+}
+
+pre {
+  padding: 0;
+  margin: 0;
+}
+
+.tr {
+  display: table-row;
+}
+
+.md {
+  vertical-align: middle;
+}
+
+.txt-r {
+  text-align: right;
+}
+.txt-l {
+  text-align: left;
+}
+
+.fr {
+  float: right;
+}
+.fl {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+.left {
+  float: left;
+}
+
+/* .body {
+  top: 1500px !important;
+  bottom: 180px !important;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+} */
+.chat-area {
+  width: 100%;
+  height: 600px;
+  overflow-y: scroll;
+}
+.head {
+  width: 40%;
+  height: 20%;
+  background-repeat: repeat-x;
+  display: table;
+}
+
+.head-left {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.head-right {
+  text-align: right;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.profile-thumb {
+  width: 32px;
+  height: 32px;
+  border-radius: 3px;
+}
+.chat-box {
+  padding: 8px;
+}
+
+.chat-box-l .chat-txt {
+  padding-left: 10px;
+}
+.chat-box-r .chat-txt {
+  padding-right: 10px;
+}
+.chat-txt {
+  word-break: break-all;
+}
+
+.bubble-l {
+  margin-left: 10px;
+  margin-top: 10px;
+  border-radius: 15px;
+  background-color: #e4e8eb;
+  padding: 10px;
+  font-size: 11px;
+  color: #424242;
+  position: relative;
+}
+
+.bubble-l:before {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 40px;
+  background-color: white;
+  bottom: 0px;
+  top: -32px;
+  left: -25px;
+  z-index: -1;
+  border-bottom-left-radius: 43px;
+}
+.bubble-l:after {
+  content: '';
+  position: absolute;
+  width: 17px;
+  height: 40px;
+  background-color: #e4e8eb;
+  bottom: 0px;
+  top: -23px;
+  left: -12px;
+  z-index: -2;
+  border-bottom-left-radius: 20px;
+}
+
+.bubble-r {
+  margin-right: 10px;
+  margin-top: 10px;
+  border-radius: 15px;
+  background-color: #bef18c;
+  padding: 10px;
+  font-size: 11px;
+  color: #424242;
+  position: relative;
+}
+
+.bubble-r:before {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 40px;
+  background-color: white;
+  bottom: 0px;
+  top: -32px;
+  right: -25px;
+  z-index: -1;
+  border-bottom-right-radius: 43px;
+}
+.bubble-r:after {
+  content: '';
+  position: absolute;
+  width: 17px;
+  height: 40px;
+  background-color: #bef18c;
+  bottom: 0px;
+  top: -23px;
+  right: -12px;
+  z-index: -2;
+  border-bottom-right-radius: 20px;
+}
+
+.txt-id {
+  font-size: 13px;
+  color: #666666;
+}
+.txt-id-b {
+  font-size: 13px;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.txt-num {
+  font-size: 11px;
+  color: #ffffff;
+  font-weight: bold;
+  height: 20px;
+  padding-left: 3px;
+  display: inline;
+}
+
+.pt5 {
+  padding-top: 5px;
 }

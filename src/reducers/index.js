@@ -7,6 +7,10 @@ import stepNumber from './stepNumber';
 import wasWin from './wasWin';
 import winner from './winner';
 import yourTurn from './yourTurn';
+import historyOnline from './historyOnline';
+import stepNumberOnline from './stepNumberOnline';
+import winnerOnline from './winnerOnline';
+import yourTurnOnline from './yourTurnOnline';
 
 export default combineReducers({
   history,
@@ -16,5 +20,9 @@ export default combineReducers({
   wasWin,
   winner,
   yourTurn,
-  user
+  user,
+  historyOnline,
+  stepNumberOnline,
+  yourTurnOnline,
+  winnerOnline
 });

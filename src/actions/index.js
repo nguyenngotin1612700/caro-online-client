@@ -118,3 +118,45 @@ export const logoutAction = () => ({
   type: 'LOGOUT',
   payload: {}
 });
+
+export const addCheckOnline = (squares, type, position) => ({
+  type: 'ADD_CHECK_ONLINE',
+  payload: {
+    squares,
+    type,
+    position
+  }
+});
+
+export const changeAllHistoryOnline = history => ({
+  type: 'CHANGE_HISTORY_ONLINE',
+  payload: {
+    history
+  }
+});
+
+export const changeStepNumberOnline = stepNumber => ({
+  type: 'CHANGE_STEPNUMBER_ONLINE',
+  payload: {
+    stepNumber
+  }
+});
+
+export const addWinOnline = winner => ({
+  type: 'ADD_WINNER_ONLINE',
+  payload: {
+    winner
+  }
+});
+
+export const toggleYourTurnOnline = () => ({
+  type: 'TOGGLE_YOURTURN_ONLINE',
+  payload: {}
+});
+
+export const setYourTurnOnline = yourTurn => ({
+  type: 'SET_YOURTURN_ONLINE',
+  payload: {
+    yourTurn
+  }
+});

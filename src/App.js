@@ -13,7 +13,18 @@ const persistedState = loadState();
 const store = configStore(persistedState);
 
 store.subscribe(() => {
-  saveState(store.getState());
+  const state = store.getState();
+  const stateNeedSave = {
+    user: state.user,
+    history: state.history,
+    moveChoose: state.moveChoose,
+    sortMovesAsc: state.sortMovesAsc,
+    stepNumber: state.stepNumber,
+    wasWin: state.wasWin,
+    winner: state.winner,
+    yourTurn: state.yourTurn
+  };
+  saveState(stateNeedSave);
 });
 
 class App extends React.Component {
