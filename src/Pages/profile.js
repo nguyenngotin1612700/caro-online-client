@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import fetch from 'cross-fetch';
 import { Form, Button, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { receiveUser } from '../actions';
 
-class Register extends React.Component {
+class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,32 +16,31 @@ class Register extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    const { user, saveNewUser } = this.props;
     this.setState({
       isLoading: true,
       alert: 'default'
     });
     const name = e.target.formGroupName.value;
-    const email = e.target.formGroupEmail.value;
-    const password = e.target.formGroupPassword.value;
     const phone = e.target.formGroupPhoneNumber.value;
     const gender = e.target.formGroupGender.value;
     let check = true;
-    fetch('http://localhost:3000/users/register', {
+    fetch('http://localhost:3000/users/changeProfile', {
       method: 'post',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${user.token}`
       },
 
       body: JSON.stringify({
-        email,
         name,
         phone,
-        gender,
-        password
+        gender
       })
     })
       .then(response => {
+        // console.log('xxxxxx', response);
         if (response.status !== 200) {
           check = false;
         }
@@ -58,22 +58,23 @@ class Register extends React.Component {
             alert: 'success',
             isLoading: false
           });
+          saveNewUser(response);
         }
       });
   };
 
-  renderRegister = () => {
+  renderChangeProfile = () => {
     const { isLoading } = this.state;
     if (!isLoading) {
       return (
         <Button variant="primary" type="submit">
-          Register
+          Save
         </Button>
       );
     }
     return (
       <Button variant="primary" type="submit" disabled>
-        Registering...
+        Waiting...
       </Button>
     );
   };
@@ -96,10 +97,7 @@ class Register extends React.Component {
       return (
         <Alert variant="primary">
           <Alert.Heading>Hey, nice to see you</Alert.Heading>
-          <p>
-            Please fill all of fields to register your account and enjoy the
-            game.
-          </p>
+          <p>You can change your profile if you want</p>
         </Alert>
       );
     }
@@ -112,8 +110,7 @@ class Register extends React.Component {
     if (show) {
       return (
         <Alert variant="success">
-          <Alert.Heading>Register Successfully</Alert.Heading>
-          You can login here <Link to="/login">Login</Link>
+          <Alert.Heading>Change profile Successfully</Alert.Heading>
         </Alert>
       );
     }
@@ -136,43 +133,44 @@ class Register extends React.Component {
   };
 
   render() {
+    const { user } = this.props;
     return (
       <div className="container">
         <br />
-        {/* <Alert variant="success">
-          <Alert.Heading>Hey, nice to see you</Alert.Heading>
-          <p>
-            Please fill all of fields to register your account and enjoy the game.
-          </p>
-          <hr />
-        </Alert> */}
         {this.rederAlert()}
         <Form onSubmit={e => this.handleSubmit(e)}>
           <Form.Group controlId="formGroupEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control type="email" placeholder={user.email} disabled />
           </Form.Group>
           <Form.Group controlId="formGroupName">
             <Form.Label>Name</Form.Label>
-            <Form.Control type="text" placeholder="Your Name" />
+            <Form.Control type="text" placeholder={user.name} />
           </Form.Group>
           <Form.Group controlId="formGroupPhoneNumber">
             <Form.Label>Phone Number</Form.Label>
-            <Form.Control type="text" placeholder="Your Phone Number" />
+            <Form.Control type="text" placeholder={user.phone} />
           </Form.Group>
           <Form.Group controlId="formGroupGender">
             <Form.Label>Gender</Form.Label>
-            <Form.Control type="text" placeholder="Your Gender" />
+            <Form.Control type="text" placeholder={user.gender} />
           </Form.Group>
-          <Form.Group controlId="formGroupPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
-          </Form.Group>
-          {this.renderRegister()}
+          {this.renderChangeProfile()}
         </Form>
       </div>
     );
   }
 }
 
-export default Register;
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+const mapDispatchToProps = dispatch => ({
+  saveNewUser: user => dispatch(receiveUser(user))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Profile);

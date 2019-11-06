@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import fetch from 'cross-fetch';
 import { Form, Button, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
-class Register extends React.Component {
+class ChangePassword extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,32 +15,31 @@ class Register extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    const { user } = this.props;
     this.setState({
       isLoading: true,
       alert: 'default'
     });
-    const name = e.target.formGroupName.value;
-    const email = e.target.formGroupEmail.value;
-    const password = e.target.formGroupPassword.value;
-    const phone = e.target.formGroupPhoneNumber.value;
-    const gender = e.target.formGroupGender.value;
+    const currentPassword = e.target.formGroupCurrentPassword.value;
+    const newPassword = e.target.formGroupNewPassword.value;
+    const confirmPassword = e.target.formGroupConfirmPassword.value;
     let check = true;
-    fetch('http://localhost:3000/users/register', {
+    fetch('http://localhost:3000/users/changePassword', {
       method: 'post',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${user.token}`
       },
 
       body: JSON.stringify({
-        email,
-        name,
-        phone,
-        gender,
-        password
+        currentPassword,
+        newPassword,
+        confirmPassword
       })
     })
       .then(response => {
+        // console.log('xxxxxx', response);
         if (response.status !== 200) {
           check = false;
         }
@@ -62,18 +61,18 @@ class Register extends React.Component {
       });
   };
 
-  renderRegister = () => {
+  renderChangePassword = () => {
     const { isLoading } = this.state;
     if (!isLoading) {
       return (
         <Button variant="primary" type="submit">
-          Register
+          Change Password
         </Button>
       );
     }
     return (
       <Button variant="primary" type="submit" disabled>
-        Registering...
+        Waiting...
       </Button>
     );
   };
@@ -96,10 +95,7 @@ class Register extends React.Component {
       return (
         <Alert variant="primary">
           <Alert.Heading>Hey, nice to see you</Alert.Heading>
-          <p>
-            Please fill all of fields to register your account and enjoy the
-            game.
-          </p>
+          <p>You can change your password if you want</p>
         </Alert>
       );
     }
@@ -112,8 +108,7 @@ class Register extends React.Component {
     if (show) {
       return (
         <Alert variant="success">
-          <Alert.Heading>Register Successfully</Alert.Heading>
-          You can login here <Link to="/login">Login</Link>
+          <Alert.Heading>Change password Successfully</Alert.Heading>
         </Alert>
       );
     }
@@ -148,31 +143,27 @@ class Register extends React.Component {
         </Alert> */}
         {this.rederAlert()}
         <Form onSubmit={e => this.handleSubmit(e)}>
-          <Form.Group controlId="formGroupEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+          <Form.Group controlId="formGroupCurrentPassword">
+            <Form.Label>Current Password</Form.Label>
+            <Form.Control type="password" placeholder="Enter current pasword" />
           </Form.Group>
-          <Form.Group controlId="formGroupName">
-            <Form.Label>Name</Form.Label>
-            <Form.Control type="text" placeholder="Your Name" />
+          <Form.Group controlId="formGroupNewPassword">
+            <Form.Label>New Password</Form.Label>
+            <Form.Control type="password" placeholder="Enter new password" />
           </Form.Group>
-          <Form.Group controlId="formGroupPhoneNumber">
-            <Form.Label>Phone Number</Form.Label>
-            <Form.Control type="text" placeholder="Your Phone Number" />
+          <Form.Group controlId="formGroupConfirmPassword">
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control type="password" placeholder="Confirm password" />
           </Form.Group>
-          <Form.Group controlId="formGroupGender">
-            <Form.Label>Gender</Form.Label>
-            <Form.Control type="text" placeholder="Your Gender" />
-          </Form.Group>
-          <Form.Group controlId="formGroupPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
-          </Form.Group>
-          {this.renderRegister()}
+          {this.renderChangePassword()}
         </Form>
       </div>
     );
   }
 }
 
-export default Register;
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps)(ChangePassword);

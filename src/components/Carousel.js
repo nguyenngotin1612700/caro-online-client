@@ -4,22 +4,14 @@ import { Carousel } from 'react-bootstrap';
 export default () => (
   <Carousel>
     <Carousel.Item>
-      <img
-        className="d-block w-100"
-        src="https://via.placeholder.com/1400x800"
-        alt="First slide"
-      />
+      <img className="d-block w-100" src="Cocaro.jpg" alt="First slide" />
       <Carousel.Caption>
         <h3>First slide label</h3>
         <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
       </Carousel.Caption>
     </Carousel.Item>
     <Carousel.Item>
-      <img
-        className="d-block w-100"
-        src="https://via.placeholder.com/1400x800"
-        alt="Third slide"
-      />
+      <img className="d-block w-100" src="cocaro2.png" alt="Third slide" />
 
       <Carousel.Caption>
         <h3>Second slide label</h3>
@@ -27,11 +19,7 @@ export default () => (
       </Carousel.Caption>
     </Carousel.Item>
     <Carousel.Item>
-      <img
-        className="d-block w-100"
-        src="https://via.placeholder.com/1400x800"
-        alt="Third slide"
-      />
+      <img className="d-block w-100" src="cocaro3.jpg" alt="Third slide" />
 
       <Carousel.Caption>
         <h3>Third slide label</h3>

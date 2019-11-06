@@ -83,7 +83,7 @@ export const loginFailed = message => ({
 export const requestLogin = (email, password, cb) => {
   let check = true;
   return dispatch => {
-    fetch('https://api-jwt-1612700.herokuapp.com/users/login', {
+    fetch('http://localhost:3000/users/login', {
       method: 'post',
       headers: {
         Accept: 'application/json',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Navbar, Nav, Button, Badge } from 'react-bootstrap';
+import { Navbar, Nav, Button, NavDropdown } from 'react-bootstrap';
 import { logoutAction } from '../actions';
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -39,9 +39,18 @@ class NavBar extends React.Component {
         </Navbar.Brand>
         <Nav className="mr-auto" />
         <Nav>
-          <Nav.Link>
-            <Badge>Hello {user.name}, have a good game ^-^</Badge>
-          </Nav.Link>
+          <NavDropdown
+            title={`Hello ${user.name}, have a good game ^-^`}
+            id="collasible-nav-dropdown"
+          >
+            <NavDropdown.Item></NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.2">
+              <Link to="/profile">Thông tin cá nhân</Link>
+            </NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.3">
+              <Link to="/changePassword">Đối mật khẩu</Link>
+            </NavDropdown.Item>
+          </NavDropdown>
           <Nav.Link>
             <Button onClick={() => this.handleLogout()}>Logout</Button>
           </Nav.Link>
